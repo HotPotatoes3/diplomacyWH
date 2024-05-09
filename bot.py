@@ -41,10 +41,9 @@ def run_discord_bot(discord):
         channel = str(message.channel)
 
 
-
         if message.author == str(bot.user):
             print("Bot response")
-        elif message.author.id == 1237832585728757935:
+        elif username == 'Backstabbr#0000':
             print("Backstabbr response")
             if 'has created a new game on Backstabbr. You should join!' in user_message:
                 await gameStart(message)
@@ -57,8 +56,7 @@ def run_discord_bot(discord):
 
         else:
             print(f"{username} said: '{user_message}' ({channel})")
-
-        await bot.process_commands(message)
+            await bot.process_commands(message)
 
     @bot.event
     async def on_reaction_add(reaction, user):
@@ -129,7 +127,6 @@ def run_discord_bot(discord):
                         role = j
 
         await message.channel.send(f"{role.mention}, your game has been adjudicated. Refresh your game page and put in your next orders as soon as possible.")
-
 
     async def start(message):
         content = message.content
