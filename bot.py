@@ -2,15 +2,16 @@ import os
 from discord import Colour
 from discord.ext import commands, tasks
 import re
-
+from dotenv import load_dotenv
 
 
 
 def run_discord_bot(discord):
-    TOKEN = os.environ['TOKEN']
+    load_dotenv()
+    TOKEN = os.getenv('DISCORD_KEY')
 
     app_commands = discord.app_commands
-    bot = commands.Bot(command_prefix=".!!", intents=discord.Intents.all())
+    bot = commands.Bot(command_prefix="?", intents=discord.Intents.all())
     bot.remove_command("help")
 
     def extract_text_from_embed_field(embed_field_value):
