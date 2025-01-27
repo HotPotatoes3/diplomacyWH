@@ -1,18 +1,36 @@
 import os
 from discord import Colour
 from discord.ext import commands, tasks
+import re
+import os
+import random
+from discord.ext import commands, tasks
+from datetime import date
+from discord import Webhook
+import re
 from dotenv import load_dotenv
 
 
 
 def run_discord_bot(discord):
     load_dotenv()
-    TOKEN = os.getenv('DISCORD_KEY')
+    TOKEN = os.getenv("DISCORD_KEY")
 
     app_commands = discord.app_commands
     bot = commands.Bot(command_prefix="?", intents=discord.Intents.all())
     bot.remove_command("help")
 
+    def extract_text_from_embed_field(embed_field_value):
+        # Regular expression to capture text inside brackets
+        text_pattern = re.compile(r'\[(.*?)]\(.*?\)')
+
+        # Find the text inside the brackets
+        match = text_pattern.search(embed_field_value)
+
+        if match:
+            return match.group(1)
+        else:
+            return None
 
     @bot.event
     async def on_ready():
@@ -161,13 +179,6 @@ def run_discord_bot(discord):
         else:
             await ctx.reply("The coin landed tails\nhttps://imgur.com/LvNcW4I")
 
-    def update_data(user):
-        cursor.execute('''
-                UPDATE scores 
-                SET score = score + 1 
-                WHERE username = ?
-            ''', (user,))
-        connection.commit()
 
 
     @bot.command()
